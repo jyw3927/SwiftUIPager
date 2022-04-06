@@ -254,8 +254,8 @@ extension Pager.PagerContent {
     /// Oppacity for each item when `faded` animation is chosen
     func opacity(for item: PageWrapper<Element, ID>) -> Double {
         guard let opacityIncrement = opacityIncrement else { return 1 }
-        let distance = abs(distance(to: item))
-        return Double(max(0, min(1, 1 - distance * CGFloat(opacityIncrement))))
+        let dist = abs(distance(to: item))
+        return Double(max(0, min(1, 1 - dist * CGFloat(opacityIncrement))))
     }
 
     /// Offset applied to `HStack` along the X-Axis. It's limitted by `offsetLowerbound` and `offsetUpperbound`
@@ -271,8 +271,8 @@ extension Pager.PagerContent {
     /// Angle for the 3D rotation effect
     func angle(for item: PageWrapper<Element, ID>) -> Angle {
         guard shouldRotate else { return .zero }
-        let distance = distance(to: item)
-        return Angle(degrees: rotationDegrees * Double(distance))
+        let dist = distance(to: item)
+        return Angle(degrees: rotationDegrees * Double(dist))
     }
 
     /// Axis for the rotations effect
@@ -283,8 +283,8 @@ extension Pager.PagerContent {
 
     /// Scale that applies to a particular item
     func scale(for item: PageWrapper<Element, ID>) -> CGFloat {
-        let distance = abs(distance(to: item))
-        return Double(max(interactiveScale, min(1, 1 - distance * scaleIncrement)))
+        let dist = abs(distance(to: item))
+        return Double(max(interactiveScale, min(1, 1 - dist * scaleIncrement)))
     }
 
     /// Returns true if the item is the first or last element in memory. Just used when `isInfinitePager` is set to `true` to hide elements being resorted.
