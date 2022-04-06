@@ -284,7 +284,7 @@ extension Pager.PagerContent {
     /// Scale that applies to a particular item
     func scale(for item: PageWrapper<Element, ID>) -> CGFloat {
         let dist = abs(distance(to: item))
-        return Double(max(interactiveScale, min(1, 1 - dist * scaleIncrement)))
+        return CGFloat(max(interactiveScale, min(1, 1 - dist * scaleIncrement)))
     }
 
     /// Returns true if the item is the first or last element in memory. Just used when `isInfinitePager` is set to `true` to hide elements being resorted.
