@@ -239,6 +239,17 @@ extension Pager.PagerContent {
         let multiplier: CGFloat = isVertical ? -1 : 1
         return (itemAlignment.equalsIgnoreValues(.start) ? -availableSpace : availableSpace) * multiplier
     }
+    
+    private func distance(to item: PageWrapper<Element, ID>) -> CGFloat {
+        guard let index: Int = dataDisplayed.firstIndex(of: item) else { return 0 }
+        guard let displayedItem = dataDisplayed.first(where: { $0 == data[page] }) else { return 0 }
+        guard let displayedIndex: Int = dataDisplayed.firstIndex(of: displayedItem) else { return 0 }
+
+        let totalIncrement = abs(totalOffset / pageDistance)
+        let currentIndex = direction == .forward ? CGFloat(index) - totalIncrement : CGFloat(index) + totalIncrement
+
+        return CGFloat(displayedIndex) - currentIndex
+    }
 
     /// Oppacity for each item when `faded` animation is chosen
     func opacity(for item: PageWrapper<Element, ID>) -> Double {
@@ -274,17 +285,6 @@ extension Pager.PagerContent {
     func scale(for item: PageWrapper<Element, ID>) -> CGFloat {
         let distance = abs(distance(to: item))
         return Double(max(interactiveScale, min(1, 1 - distance * scaleIncrement)))
-    }
-
-    private func distance(to item: PageWrapper<Element, ID>) -> CGFloat {
-        guard let index: Int = dataDisplayed.firstIndex(of: item) else { return 0 }
-        guard let displayedItem = dataDisplayed.first(where: { $0 == data[page] }) else { return 0 }
-        guard let displayedIndex: Int = dataDisplayed.firstIndex(of: displayedItem) else { return 0 }
-
-        let totalIncrement = abs(totalOffset / pageDistance)
-        let currentIndex = direction == .forward ? CGFloat(index) - totalIncrement : CGFloat(index) + totalIncrement
-
-        return CGFloat(displayedIndex) - currentIndex
     }
 
     /// Returns true if the item is the first or last element in memory. Just used when `isInfinitePager` is set to `true` to hide elements being resorted.
